@@ -75,13 +75,25 @@ class Comment {
         return "about " + timeDiffInMonths + " months ago";
     }
 
+    wrapLinkInAnchor(p, links) {
+        for (let link of links) {
+            p = p.replace(link, `<a href="${link}">${link}</a>`);
+        }
+
+        return `<p class="${commentBody}">${p}</p>`;
+    }
+
     toHTML() {
         let htmlRepresentation = `<div id="${this.id}" class="${commentWrapper}">`;
         htmlRepresentation += `<p class="${commentHead}">${this.name} - ${this.id} - ${this.formatTime()}</p>`;
-        //htmlRepresentation += `<p class="${commentBody}">>>>${this.comment}</p>`;
 
-        for (let p of this.comment.split("\n"))
-            htmlRepresentation += `<p class="${commentBody}">${p}</p>`;
+        for (let p of this.comment.split("\n")) {
+            const links = p.match("#\[0-9\]*");
+            if (links)
+                htmlRepresentation += this.wrapLinkInAnchor(p, links);
+            else
+                htmlRepresentation += `<p class="${commentBody}">${p}</p>`;
+        }
 
         htmlRepresentation += `</div>`;
         return htmlRepresentation;
@@ -94,7 +106,6 @@ function validateCommentForm(event) {
 
     let nameField = document.forms[commentForm]["name"].value;
     let commentField = document.forms[commentForm]["comment"].value;
-
 
     if (commentField == "") {
         alert("Empty comment");
@@ -158,7 +169,7 @@ function test() {
     tc.stars = 1;
     comments.push(tc);
 
-    tc = new Comment("Don Rogerio", "i am el senora iman de tijuana");
+    tc = new Comment("Don Rogerio", "#1 is correct as per");
     tc.timeWhenSubmitted = 1648905062293;
     tc.stars = 421;
     comments.push(tc);
@@ -167,7 +178,6 @@ function test() {
     tc.timeWhenSubmitted = Date.now();
     tc.stars = 0;
     comments.push(tc);
-
 
     sortCommentsBasedOnTime();
 }
