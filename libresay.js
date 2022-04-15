@@ -11,7 +11,9 @@ const commentBody = "commentBody";
 var comments = [];
 var total_ids = 0;
 
+/* defaults */
 var sortByStars = false;
+const maxCommentLen = 4096;
 
 
 class Comment {
@@ -109,6 +111,11 @@ function validateCommentForm(event) {
 
     if (commentField == "") {
         alert("Empty comment");
+        return 1;
+    }
+
+    if (commentField.length > maxCommentLen) {
+        alert("Length of comment " + commentField.length + " is longer than max of " + maxCommentLen);
         return 1;
     }
 
