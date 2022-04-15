@@ -18,7 +18,12 @@ class Comment {
 
     constructor(name, comment) {
         this.id = ++total_ids;
-        this.name = name;
+
+        if (name == "")
+            this.name = "anon";
+        else
+            this.name = name;
+
         this.comment = comment;
         this.timeWhenSubmitted = Date.now();
         /* an upvote repsents that you agree with the comment */
@@ -71,9 +76,13 @@ class Comment {
     }
 
     toHTML() {
-        let htmlRepresentation = `<div class="${commentWrapper}">`;
-        htmlRepresentation += `<p class="${commentHead}">${this.name} - ${this.formatTime()}</p>`;
-        htmlRepresentation += `<p class="${commentBody}">>>>${this.comment}</p>`;
+        let htmlRepresentation = `<div id="${this.id}" class="${commentWrapper}">`;
+        htmlRepresentation += `<p class="${commentHead}">${this.name} - ${this.id} - ${this.formatTime()}</p>`;
+        //htmlRepresentation += `<p class="${commentBody}">>>>${this.comment}</p>`;
+
+        for (let p of this.comment.split("\n"))
+            htmlRepresentation += `<p class="${commentBody}">${p}</p>`;
+
         htmlRepresentation += `</div>`;
         return htmlRepresentation;
     }
@@ -81,11 +90,11 @@ class Comment {
 
 
 function validateCommentForm(event) {
+    event.preventDefault();
+
     let nameField = document.forms[commentForm]["name"].value;
     let commentField = document.forms[commentForm]["comment"].value;
 
-    if (nameField == "")
-        nameField = "anon";
 
     if (commentField == "") {
         alert("Empty comment");
@@ -95,14 +104,8 @@ function validateCommentForm(event) {
     let newComment = new Comment(nameField, commentField);
     comments.push(newComment);
 
-    if (sortByStars)
-        sortCommentsBasedOnStars();
-    else
-        sortCommentsBasedOnTime();
-
     showComments();
 
-    event.preventDefault();
     /* reset comment field, but keep name field */
     document.forms[commentForm]["comment"].value = "";
 }
@@ -112,6 +115,11 @@ function showComment(comment) {
 }
 
 function showComments() {
+    if (sortByStars)
+        sortCommentsBasedOnStars();
+    else
+        sortCommentsBasedOnTime();
+
     /* reset comment field */
     commentField.innerHTML = "";
     comments.forEach(comment => commentField.innerHTML += comment.toHTML());
@@ -134,4 +142,35 @@ function setSortByStars(bool) {
         sortByStars = true;
     else
         sortByStars = false;
+
+    showComments();
 }
+
+/* test data */
+function test() {
+    tc = new Comment("Nicolai", "this article sucks");
+    tc.timeWhenSubmitted = 1650005062193;
+    tc.stars = 420;
+    comments.push(tc);
+
+    tc = new Comment("D.H.T", "As if you could kill time without injuring eternity");
+    tc.timeWhenSubmitted = 1648905062193;
+    tc.stars = 1;
+    comments.push(tc);
+
+    tc = new Comment("Don Rogerio", "i am el senora iman de tijuana");
+    tc.timeWhenSubmitted = 1648905062293;
+    tc.stars = 421;
+    comments.push(tc);
+
+    tc = new Comment("", "simplify\nsimplify\nsimplify!");
+    tc.timeWhenSubmitted = Date.now();
+    tc.stars = 0;
+    comments.push(tc);
+
+
+    sortCommentsBasedOnTime();
+}
+
+test();
+showComments();

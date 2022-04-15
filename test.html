@@ -9,12 +9,13 @@
     <body>
         <div id="wrapper">
             <form id="commentForm" name="commentForm" method="post" onsubmit="validateCommentForm(event)">
-                <input type="text" id="name" placeholder="name"></input>
+                <input type="text" name="name" placeholder="name"></input>
                 <br>
-                <input type="text" id="comment" placeholder="comment"></input>
+                <textarea name="comment" form="commentForm" placeholder="comment"></textarea>
                 <br>
                 <input type="submit" value="Submit comment"></input>
             </form>
+
 
             <div id="commentSection">
                 <p>Previous comments:</p>
