@@ -1,0 +1,33 @@
+<html lang="en">
+    <head>
+        <title>libresay test</title>
+        <link rel="stylesheet" href="test.css">
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1" name="viewport">
+    </head>
+
+    <body>
+        <div id="wrapper">
+            <form id="commentForm" name="commentForm" method="post" onsubmit="validateCommentForm(event)">
+                <input type="text" id="name" placeholder="name"></input>
+                <br>
+                <input type="text" id="comment" placeholder="comment"></input>
+                <br>
+                <input type="submit" value="Submit comment"></input>
+            </form>
+
+            <div id="commentSection">
+                <p>Previous comments:</p>
+                <p>sort by</p>
+                <button type="button" onclick="setSortByStars('false')">new</button>
+                <button type="button" onclick="setSortByStars('true')">stars</button>
+
+                <div id="commentField">
+                </div>
+            </div>
+        </div>
+
+        <script src="libresay.js"></script> 
+
+    </body>
+</html>

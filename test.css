@@ -1,0 +1,13 @@
+#commentForm > #comment {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    height: 100px;
+}
+
+.commentWrapper {
+    border: 1px;
+    border-style: solid;
+    width: 50%;
+    background-color: lightgrey;
+    margin: 10px;
+}
