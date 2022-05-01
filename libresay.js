@@ -21,7 +21,7 @@ class Comment {
     constructor(name, comment) {
         this.id = ++total_ids;
 
-        if (name == "")
+        if (name === "")
             this.name = "anon";
         else
             this.name = name;
@@ -109,7 +109,7 @@ function validateCommentForm(event) {
     let nameField = document.forms[commentForm]["name"].value;
     let commentField = document.forms[commentForm]["comment"].value;
 
-    if (commentField == "") {
+    if (commentField === "") {
         alert("Empty comment");
         return 1;
     }
@@ -143,6 +143,10 @@ function showComments() {
     comments.forEach(comment => commentField.innerHTML += comment.toHTML());
 }
 
+function serialize() {
+    comments.forEach(comment => console.log(JSON.stringify(comment)));
+}
+
 function sortCommentsBasedOnTime() {
     comments.sort(function(a, b) {
                 return b.timeWhenSubmitted - a.timeWhenSubmitted
@@ -156,7 +160,7 @@ function sortCommentsBasedOnStars() {
 }
 
 function setSortByStars(bool) {
-    if (bool == "true")
+    if (bool === "true")
         sortByStars = true;
     else
         sortByStars = false;
@@ -171,7 +175,7 @@ function test() {
     tc.stars = 420;
     comments.push(tc);
 
-    tc = new Comment("D.H.T", "As if you could kill time without injuring eternity");
+    tc = new Comment("H.D.T", "As if you could kill time without injuring eternity");
     tc.timeWhenSubmitted = 1648905062193;
     tc.stars = 1;
     comments.push(tc);
@@ -191,3 +195,4 @@ function test() {
 
 test();
 showComments();
+serialize();
